@@ -1,0 +1,28 @@
+node_modules/
+.expo/
+dist/
+*.tsbuildinfo
+
+# iOS
+ios/Pods/
+ios/build/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+ios/DerivedData/
+
+# Android
+android/app/build/
+android/build/
+android/.gradle/
+
+# Metro
+.metro-health-check*
+
+# Misc
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/

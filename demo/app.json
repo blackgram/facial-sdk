@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "liveness-sdk-demo",
+    "slug": "liveness-sdk-demo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.diguiux.liveness.example",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Required for liveness capture"
+      },
+      "appleTeamId": "3W835TBHTL"
+    },
+    "android": {
+      "package": "com.diguiux.liveness.example",
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
+        }
+      ],
+      "expo-asset"
+    ]
+  }
+}
