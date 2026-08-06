@@ -1,7 +1,15 @@
 {
   "name": "@diguiux/liveness-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Liveness capture SDK for React Native",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blackgram/facial-sdk.git"
+  },
+  "homepage": "https://github.com/blackgram/facial-sdk",
+  "bugs": {
+    "url": "https://github.com/blackgram/facial-sdk/issues"
+  },
   "main": "src/index.ts",
   "types": "src/index.ts",
   "source": "src/index.ts",
@@ -38,10 +46,10 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "expo-file-system": "^57.0.2",
     "react": "19.2.3",
     "react-native": "0.86.0",
     "typescript": "~5.5.0"
   },
-  "private": true,
-  "license": "UNLICENSED"
+  "license": "MIT"
 }

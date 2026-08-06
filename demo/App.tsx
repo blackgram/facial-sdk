@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   LivenessCapture,
   type CaptureResult,
@@ -19,6 +19,7 @@ const DEMO_PROMPTS: PromptConfig[] = [
 export default function App() {
   const [capturing, setCapturing] = useState(false);
   const [result, setResult] = useState<CaptureResult | null>(null);
+  const [showFrames, setShowFrames] = useState(false);
 
   const handleComplete = (captureResult: CaptureResult) => {
     setResult(captureResult);
@@ -72,9 +73,25 @@ export default function App() {
             <Text style={styles.resultText}>Frames: {result.frames.length}</Text>
             <Text style={styles.resultText}>Duration: {result.durationMs}ms</Text>
             <Text style={styles.resultText}>Version: {result.version}</Text>
+            {/* full result */}
+            <ScrollView style={styles.resultJson} nestedScrollEnabled>
+              <Text style={styles.resultJsonText}>{JSON.stringify(result, null, 2)}</Text>
+            </ScrollView>
+            <Pressable style={styles.framesBtn} onPress={() => setShowFrames(!showFrames)}>
+              <Text style={styles.framesBtnText}>{showFrames ? 'Hide Frames' : 'View Captured Frames'}</Text>
+            </Pressable>
+            {showFrames && (
+              <ScrollView horizontal style={styles.framesScroll} showsHorizontalScrollIndicator={false}>
+                {result.frames.map((frame, i) => (
+                  <View key={i} style={styles.frameCard}>
+                    <Image source={{ uri: frame.uri }} style={styles.frameImage} />
+                    <Text style={styles.frameLabel}>{frame.prompt.id}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            )}
           </View>
         )}
-
         <Pressable style={styles.button} onPress={() => setCapturing(true)}>
           <Text style={styles.buttonText}>Start Liveness Capture</Text>
         </Pressable>
@@ -91,6 +108,14 @@ const styles = StyleSheet.create({
   resultCard: { backgroundColor: '#F7F8FA', borderRadius: 12, padding: 16, marginBottom: 24, borderWidth: 1, borderColor: '#E5E7EB' },
   resultTitle: { fontWeight: '700', fontSize: 16, marginBottom: 8, color: '#111' },
   resultText: { fontSize: 14, color: '#6B7280', marginBottom: 4 },
+  resultJson: { marginTop: 8, maxHeight: 200, backgroundColor: '#F3F4F6', padding: 8, borderRadius: 8 },
+  resultJsonText: { fontSize: 12, fontFamily: 'Courier', color: '#374151' },
+  framesBtn: { marginTop: 12, paddingVertical: 10, alignItems: 'center', backgroundColor: '#E5E7EB', borderRadius: 8 },
+  framesBtnText: { fontSize: 14, fontWeight: '600', color: '#374151' },
+  framesScroll: { marginTop: 12 },
+  frameCard: { marginRight: 12, alignItems: 'center' },
+  frameImage: { width: 80, height: 110, borderRadius: 8, backgroundColor: '#D1D5DB' },
+  frameLabel: { fontSize: 11, color: '#6B7280', marginTop: 4 },
   button: { backgroundColor: '#F97316', borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
   buttonText: { color: '#fff', fontWeight: '700', fontSize: 16 },
 });

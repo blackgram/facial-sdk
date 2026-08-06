@@ -213,8 +213,8 @@ export function CaptureView({
       finishCapture({
         prompt,
         uri,
-        width: photoFile.width ?? 0,
-        height: photoFile.height ?? 0,
+        width: 0,
+        height: 0,
         timestamp: Date.now(),
       });
     } catch {
@@ -230,8 +230,8 @@ export function CaptureView({
         finishCapture({
           prompt,
           uri,
-          width: retryFile.width ?? 0,
-          height: retryFile.height ?? 0,
+          width: 0,
+          height: 0,
           timestamp: Date.now(),
         });
       } catch (retryErr) {
