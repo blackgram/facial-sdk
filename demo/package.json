@@ -8,7 +8,7 @@
     "ios": "expo run:ios"
   },
   "dependencies": {
-    "@diguiux/liveness-sdk": "^0.1.0",
+    "@diguiux/liveness-react-native": "^0.2.0",
     "@expo/log-box": "^57.0.2",
     "expo": "~57.0.1",
     "expo-asset": "~57.0.9",

@@ -2,3 +2,4 @@ node_modules/
 dist/
 .expo/
 *.tsbuildinfo
+.DS_Store

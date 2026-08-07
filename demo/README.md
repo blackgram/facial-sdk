@@ -1,6 +1,6 @@
 # Liveness SDK Demo
 
-A demo app showcasing `@diguiux/liveness-sdk` integration.
+A demo app showcasing `@diguiux/liveness-react-native` integration.
 
 ## Setup
 

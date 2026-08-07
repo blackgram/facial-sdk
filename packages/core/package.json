@@ -1,0 +1,30 @@
+{
+  "name": "@diguiux/liveness-core",
+  "version": "0.1.1",
+  "description": "Platform-agnostic liveness detection core — gatekeeper, state machine, face quality, plugins",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blackgram/facial-sdk.git",
+    "directory": "packages/core"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "~5.5.0"
+  },
+  "license": "MIT"
+}

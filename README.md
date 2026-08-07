@@ -1,6 +1,15 @@
-# @diguiux/liveness-sdk
+# @diguiux/liveness
 
-A React Native liveness capture SDK with face detection, multi-prompt challenges, and anti-spoofing checks.
+A multi-platform liveness detection SDK with face detection, multi-prompt challenges, and anti-spoofing checks.
+
+## Packages
+
+| Package | Description | Platform |
+|---------|-------------|----------|
+| [`@diguiux/liveness-core`](./packages/core) | Platform-agnostic gatekeeper, state machine, face quality, plugin types | Any |
+| [`@diguiux/liveness-react-native`](./packages/sdk) | React Native SDK (Vision Camera + ML Kit) | iOS / Android |
+| [`@diguiux/liveness-web`](./packages/web) | Web Component (MediaPipe Face Landmarker) | Browser |
+| [`@diguiux/liveness-react`](./packages/react) | React wrapper for the Web Component | React Web |
 
 ## Features
 
@@ -9,80 +18,107 @@ A React Native liveness capture SDK with face detection, multi-prompt challenges
 - Filler prompts (e.g. `center_face`) for readiness checks without capture
 - Anti-static detection to prevent photo/screen spoofing
 - Plugin system for custom frame validation
-- Theming and localization support
+- Theming support
 - Animated success indicators and smooth prompt transitions
+- Shared core logic across all platforms
 
-## Installation
+## Quick Start
 
-```bash
-npx expo install @diguiux/liveness-sdk
-```
-
-### Peer Dependencies
+### React Native
 
 ```bash
-npx expo install react-native-vision-camera react-native-vision-camera-face-detector react-native-svg react-native-safe-area-context expo-brightness react-native-reanimated
+npx expo install @diguiux/liveness-react-native
 ```
-
-### iOS Setup
-
-Add to your `Info.plist`:
-
-```xml
-<key>NSCameraUsageDescription</key>
-<string>Required for liveness verification</string>
-```
-
-## Usage
 
 ```tsx
-import { LivenessCapture, type CaptureResult, type PromptConfig } from '@diguiux/liveness-sdk';
+import { LivenessCapture } from '@diguiux/liveness-react-native';
 
-const prompts: PromptConfig[] = [
-  { id: 'center_face', instruction: 'Center your face in the circle' },
-  { id: 'look_straight', instruction: 'Look straight at the camera' },
-  { id: 'turn_left', instruction: 'Turn your head to the left' },
-  { id: 'blink', instruction: 'Blink naturally' },
-];
-
-function App() {
-  return (
-    <LivenessCapture
-      prompts={prompts}
-      showInstructions={true}
-      enableLogs={false}
-      onComplete={(result: CaptureResult) => {
-        // Send result.frames to your verification API
-      }}
-      onCancel={() => {}}
-      onError={(error) => console.error(error)}
-      theme={{ primary: '#F97316' }}
-    />
-  );
-}
+<LivenessCapture
+  prompts={prompts}
+  onComplete={(result) => { /* send to your API */ }}
+  onCancel={() => {}}
+  onError={(err) => console.error(err)}
+  theme={{ primary: '#F97316' }}
+/>
 ```
 
-## Props
+### Web (any framework or plain HTML)
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `prompts` | `PromptConfig[]` | required | Array of capture prompts |
-| `showInstructions` | `boolean` | `true` | Show instructions screen before capture |
-| `enableLogs` | `boolean` | `false` | Enable SDK console logging |
-| `theme` | `Partial<LivenessTheme>` | — | Theme overrides |
-| `messages` | `Partial<LivenessMessages>` | — | Localization overrides |
-| `plugins` | `LivenessPlugin[]` | — | Custom frame validation plugins |
-| `onComplete` | `(result: CaptureResult) => void` | required | Called with all captured frames |
-| `onCancel` | `() => void` | required | Called when user cancels |
-| `onError` | `(error: LivenessError) => void` | required | Called on unrecoverable errors |
-| `onPromptStart` | `(prompt, index) => void` | — | Called when a prompt begins |
-| `onPromptComplete` | `(prompt, frame) => void` | — | Called after each frame capture |
-| `onProgress` | `(event) => void` | — | Progress updates |
+```bash
+npm install @diguiux/liveness-web
+```
 
-## Demo App
+```html
+<diguiux-liveness theme-primary="#F97316"></diguiux-liveness>
+<script type="module">
+  import '@diguiux/liveness-web';
+  const el = document.querySelector('diguiux-liveness');
+  el.prompts = [
+    { id: 'center_face', instruction: 'Center your face' },
+    { id: 'look_straight', instruction: 'Look straight' },
+    { id: 'turn_left', instruction: 'Turn left' },
+    { id: 'smile', instruction: 'Smile' },
+  ];
+  el.addEventListener('complete', (e) => console.log(e.detail));
+</script>
+```
 
-See the [`demo/`](./demo) folder for a complete working example.
+### React (Web)
+
+```bash
+npm install @diguiux/liveness-react
+```
+
+```tsx
+import { Liveness } from '@diguiux/liveness-react';
+
+<Liveness
+  prompts={prompts}
+  themePrimary="#F97316"
+  onComplete={(result) => { /* send to your API */ }}
+  onCancel={() => {}}
+  onError={(err) => console.error(err)}
+/>
+```
+
+## Architecture
+
+```
+@diguiux/liveness-core (shared logic)
+├── @diguiux/liveness-react-native (React Native)
+├── @diguiux/liveness-web (Web Component + MediaPipe)
+│   └── @diguiux/liveness-react (thin React wrapper)
+```
+
+## Development
+
+```bash
+# Install all workspace dependencies
+npm install
+
+# Build all packages
+npm run build
+
+# Build individual packages
+npm run build:core
+npm run build:sdk
+npm run build:web
+
+# Run web demo
+cd packages/web && npm run dev
+# → http://localhost:3000/demo/
+
+# Run React demo
+cd packages/react/demo && npm install && npm run dev
+# → http://localhost:3001
+```
+
+## Demos
+
+- **React Native**: [`demo/`](./demo) — Expo app with device capture
+- **Web (vanilla)**: [`packages/web/demo/`](./packages/web/demo) — Plain HTML + Web Component
+- **React (web)**: [`packages/react/demo/`](./packages/react/demo) — Vite + React app
 
 ## License
 
-UNLICENSED
+MIT

@@ -1,0 +1,36 @@
+{
+  "name": "@diguiux/liveness-web",
+  "version": "0.1.1",
+  "description": "Liveness detection Web Component — MediaPipe-powered, framework-agnostic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blackgram/facial-sdk.git",
+    "directory": "packages/web"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "bundle": "npx esbuild src/index.ts --bundle --format=esm --outfile=dist/liveness-web.esm.js",
+    "dev": "npm run build && npm run bundle && python3 -m http.server 3000",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@diguiux/liveness-core": "^0.1.0",
+    "@mediapipe/tasks-vision": "^0.10.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "typescript": "~5.5.0"
+  },
+  "license": "MIT"
+}

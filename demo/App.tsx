@@ -5,7 +5,7 @@ import {
   type CaptureResult,
   type PromptConfig,
   LivenessError,
-} from '@diguiux/liveness-sdk';
+} from '@diguiux/liveness-react-native';
 
 // Simulated prompts — in production these come from your backend's /liveness/start response
 const DEMO_PROMPTS: PromptConfig[] = [
